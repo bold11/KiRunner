@@ -1,0 +1,21 @@
+# Android Studio / Gradle
+*.iml
+.gradle/
+/local.properties
+/.idea/
+/build/
+/app/build/
+/captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+
+# scratch files from the tools/ scripts
+/.tmp/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Dark glass bar with a thin teal glow line on top -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient android:angle="270" android:startColor="#F01A1438" android:endColor="#FA0A0920" />
+        </shape>
+    </item>
+    <item android:gravity="top" android:height="2dp">
+        <shape android:shape="rectangle">
+            <gradient android:angle="0" android:startColor="#002CE5D8" android:centerColor="#CC2CE5D8" android:endColor="#002CE5D8" />
+        </shape>
+    </item>
+</layer-list>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.KiRunnerGame"
+        tools:targetApi="31">
+
+        <!-- STAGE 5: Splash is the launcher. The whole app runs in landscape (ignore the lint warning). -->
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:screenOrientation="sensorLandscape"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Main menu: ADVENTURE or CLASSIC RUN, and the difficulty -->
+        <activity
+            android:name=".MenuActivity"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity" />
+
+        <!-- ADVENTURE mode: landscape side-scroller with boss fights -->
+        <activity
+            android:name=".AdventureActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboard|keyboardHidden|uiMode|navigation"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape" />
+
+        <!-- configChanges: dark-mode switches / split screen don't recreate the screen and lose the run -->
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboard|keyboardHidden|uiMode|navigation"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity" />
+    </application>
+</manifest>

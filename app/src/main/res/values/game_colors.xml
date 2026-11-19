@@ -1,0 +1,11 @@
+<resources>
+    <color name="ki_night">#0C0D28</color>
+    <color name="ki_indigo">#1B1640</color>
+    <color name="ki_teal">#2CE5D8</color>
+    <color name="ki_teal_dark">#14807A</color>
+    <color name="ki_magenta">#FF3FAE</color>
+    <color name="ki_gold">#FFC23C</color>
+    <color name="ki_orange">#FF6A00</color>
+    <color name="ki_text">#FFFFFF</color>
+    <color name="ki_text_dim">#B9B4E6</color>
+</resources>

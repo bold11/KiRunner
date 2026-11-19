@@ -1,0 +1,13 @@
+# keep scripts runnable everywhere
+gradlew text eol=lf
+*.bat text eol=crlf
+*.sh text eol=lf
+
+# binary assets
+*.png binary
+*.jpg binary
+*.gif binary
+*.ogg binary
+*.wav binary
+*.ttf binary
+*.jar binary

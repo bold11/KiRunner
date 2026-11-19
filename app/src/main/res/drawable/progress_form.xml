@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Thin "power meter" toward the next transformation -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background">
+        <shape android:shape="rectangle">
+            <corners android:radius="3dp" />
+            <solid android:color="#33FFFFFF" />
+        </shape>
+    </item>
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape android:shape="rectangle">
+                <corners android:radius="3dp" />
+                <gradient android:angle="0" android:startColor="#2CE5D8" android:centerColor="#AA82FF" android:endColor="#FFD678" />
+            </shape>
+        </clip>
+    </item>
+</layer-list>

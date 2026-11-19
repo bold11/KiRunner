@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ki_night">
+
+    <!-- Game area fills the screen; obstacles slide behind the control bar -->
+    <com.example.kirunner.GameView
+        android:id="@+id/gameView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Top HUD: pause | current form + power meter (centered) | 2D/2.5D view + sound -->
+    <FrameLayout
+        android:id="@+id/topHud"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:paddingStart="14dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="14dp">
+
+        <ImageButton
+            android:id="@+id/pauseButton"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_gravity="start|center_vertical"
+            android:background="@drawable/hud_button_bg"
+            android:contentDescription="@string/cd_pause"
+            android:scaleType="center"
+            android:src="@drawable/ic_pause" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/formText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/bangers"
+                android:letterSpacing="0.15"
+                android:shadowColor="#000000"
+                android:shadowRadius="8"
+                android:text="@string/form_start"
+                android:textColor="@color/ki_teal"
+                android:textSize="20sp" />
+
+            <ProgressBar
+                android:id="@+id/formMeter"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="110dp"
+                android:layout_height="6dp"
+                android:layout_marginTop="2dp"
+                android:max="100"
+                android:maxHeight="6dp"
+                android:minHeight="6dp"
+                android:progressDrawable="@drawable/progress_form" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/viewButton"
+                android:layout_width="64dp"
+                android:layout_height="46dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/hud_pill_bg"
+                android:clickable="true"
+                android:contentDescription="@string/cd_view"
+                android:focusable="true"
+                android:fontFamily="@font/bangers"
+                android:gravity="center"
+                android:letterSpacing="0.05"
+                android:text="@string/view_3d"
+                android:textColor="@color/ki_text_dim"
+                android:textSize="19sp" />
+
+            <ImageButton
+                android:id="@+id/soundButton"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:background="@drawable/hud_button_bg"
+                android:contentDescription="@string/cd_sound"
+                android:scaleType="center"
+                android:src="@drawable/ic_sound_on" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- Pause overlay (pause button or leaving the app). Tap anywhere to resume with 3-2-1. -->
+    <FrameLayout
+        android:id="@+id/pauseOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#B30A0820"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/panel_pause"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="28dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/bangers"
+                android:letterSpacing="0.06"
+                android:shadowColor="@color/ki_teal"
+                android:shadowRadius="16"
+                android:text="@string/paused"
+                android:textColor="@color/ki_teal"
+                android:textSize="56sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rajdhani_bold"
+                android:letterSpacing="0.08"
+                android:text="@string/tap_resume"
+                android:textColor="@color/ki_text"
+                android:textSize="19sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/rajdhani_bold"
+                android:gravity="center"
+                android:text="@string/dev_tip"
+                android:textColor="@color/ki_text_dim"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- STAGE 6: Game Over overlay (hidden until a collision). Tap anywhere to restart. -->
+    <FrameLayout
+        android:id="@+id/gameOverOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#A60A0820"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/gameOverPanel"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/panel_game_over"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingStart="26dp"
+            android:paddingTop="24dp"
+            android:paddingEnd="26dp"
+            android:paddingBottom="28dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/bangers"
+                android:letterSpacing="0.04"
+                android:shadowColor="@color/ki_orange"
+                android:shadowRadius="18"
+                android:text="@string/game_over"
+                android:textColor="@color/ki_gold"
+                android:textSize="60sp" />
+
+            <TextView
+                android:id="@+id/newBestText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-4dp"
+                android:fontFamily="@font/bangers"
+                android:letterSpacing="0.1"
+                android:shadowColor="@color/ki_teal"
+                android:shadowRadius="12"
+                android:text="@string/new_best"
+                android:textColor="@color/ki_teal"
+                android:textSize="22sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/finalScoreText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/rajdhani_bold"
+                android:letterSpacing="0.12"
+                android:textColor="@color/ki_text"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/bestScoreText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rajdhani_bold"
+                android:letterSpacing="0.12"
+                android:textColor="@color/ki_text_dim"
+                android:textSize="18sp" />
+
+            <!-- Run stats: TIME | FORM | CLOSE CALLS | KOs -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/score_box"
+                android:orientation="horizontal"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/statTimeText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/bangers"
+                        android:textColor="@color/ki_text"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/rajdhani_bold"
+                        android:letterSpacing="0.15"
+                        android:text="@string/stat_time"
+                        android:textColor="@color/ki_text_dim"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/statFormText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/bangers"
+                        android:textColor="@color/ki_teal"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/rajdhani_bold"
+                        android:letterSpacing="0.15"
+                        android:text="@string/stat_form"
+                        android:textColor="@color/ki_text_dim"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/statCloseText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/bangers"
+                        android:textColor="@color/ki_text"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/rajdhani_bold"
+                        android:letterSpacing="0.15"
+                        android:text="@string/stat_close"
+                        android:textColor="@color/ki_text_dim"
+                        android:textSize="11sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/statKoText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/bangers"
+                        android:textColor="@color/ki_text"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/rajdhani_bold"
+                        android:letterSpacing="0.15"
+                        android:text="@string/stat_ko"
+                        android:textColor="@color/ki_text_dim"
+                        android:textSize="11sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="14dp"
+                android:background="@drawable/divider_glow" />
+
+            <TextView
+                android:id="@+id/playAgainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rajdhani_bold"
+                android:gravity="center"
+                android:lineSpacingExtra="2dp"
+                android:text="@string/play_again"
+                android:textColor="@color/ki_text"
+                android:textSize="17sp" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- STAGE 4: Control bar  [ LEFT ][ JUMP ]  SCORE  [ KI ][ RIGHT ]  (hold SCORE for the dev overlay) -->
+    <LinearLayout
+        android:id="@+id/controlBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/control_bar_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="14dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="14dp"
+        android:paddingBottom="8dp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/leftButton"
+            style="@style/KiControlButton"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_arrow_left"
+            android:text="@string/left" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/jumpButton"
+            style="@style/KiControlButton"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="10dp"
+            android:layout_weight="0.8"
+            android:text="@string/jump" />
+
+        <LinearLayout
+            android:id="@+id/scoreBox"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_weight="0.85"
+            android:background="@drawable/score_box"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rajdhani_bold"
+                android:letterSpacing="0.3"
+                android:text="@string/score_label"
+                android:textColor="@color/ki_text_dim"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/scoreText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-6dp"
+                android:fontFamily="@font/bangers"
+                android:shadowColor="@color/ki_orange"
+                android:shadowRadius="10"
+                android:text="@string/score_zero"
+                android:textColor="@color/ki_gold"
+                android:textSize="34sp" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/fireButton"
+            style="@style/KiControlButton"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="0.8"
+            android:text="@string/ki" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/rightButton"
+            style="@style/KiControlButton"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:drawableEnd="@drawable/ic_arrow_right"
+            android:text="@string/right" />
+    </LinearLayout>
+</FrameLayout>

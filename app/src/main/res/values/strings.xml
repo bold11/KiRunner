@@ -1,0 +1,71 @@
+<resources>
+    <string name="app_name">Ki Runner</string>
+    <string name="splash_tagline">ENDLESS SKY DASH</string>
+    <string name="loading">The game will start momentarily...</string>
+    <string name="percent_zero" formatted="false">0%</string>
+    <string name="percent_format">%1$d%%</string>
+
+    <string name="left">LEFT</string>
+    <string name="right">RIGHT</string>
+    <string name="jump">JUMP</string>
+    <string name="ki">KI</string>
+    <string name="score_label">SCORE</string>
+    <string name="score_zero">0</string>
+
+    <string name="game_over">Game Over</string>
+    <string name="final_score">SCORE  %1$d</string>
+    <string name="best_score">BEST  %1$d</string>
+    <string name="new_best">NEW BEST!</string>
+    <string name="play_again">Tap Screen (or either button) to Play Again</string>
+    <string name="stat_time">TIME</string>
+    <string name="stat_form">FORM</string>
+    <string name="stat_close">CLOSE CALLS</string>
+    <string name="stat_ko">KOs</string>
+
+    <string name="paused">Paused</string>
+    <string name="tap_resume">Tap to resume</string>
+    <string name="dev_tip">Tip: hold the SCORE box to show hitboxes</string>
+    <string name="dev_on">Dev overlay ON: red = image, green = hitbox</string>
+    <string name="dev_off">Dev overlay OFF</string>
+
+    <string name="banner_go">GO!</string>
+    <string name="banner_power_up">POWER UP!</string>
+    <string name="banner_close">CLOSE!</string>
+    <string name="form_start">BASE</string>
+    <string name="view_3d">2.5D</string>
+    <string name="banner_3d">2.5D VIEW</string>
+    <string name="banner_2d">2D VIEW</string>
+    <string name="hint_controls">A D / SWIPE MOVE  •  SPACE / SWIPE UP JUMP  •  TAP / RIGHT-CLICK BLAST</string>
+
+    <!-- Transformations: Base, Storm, Jade, Void, Zenith -->
+    <string-array name="form_names">
+        <item>BASE</item>
+        <item>STORM</item>
+        <item>JADE</item>
+        <item>VOID</item>
+        <item>ZENITH</item>
+    </string-array>
+    <string-array name="form_banners">
+        <item>GO!</item>
+        <item>STORM FORM!</item>
+        <item>JADE FORM!</item>
+        <item>VOID FORM!</item>
+        <item>ZENITH FORM!</item>
+    </string-array>
+
+    <string name="menu_adventure">ADVENTURE</string>
+    <string name="menu_adventure_sub">Side-scroller · micro monsters · 3 bullet-hell bosses</string>
+    <string name="menu_classic">CLASSIC RUN</string>
+    <string name="menu_classic_sub">7-lane endless runner: dodge, jump and blast</string>
+    <string name="menu_difficulty">DIFFICULTY</string>
+    <string name="diff_easy">EASY</string>
+    <string name="diff_hard">HARD</string>
+    <string name="diff_extreme">EXTREME</string>
+    <string name="menu_best">Best: adventure %1$d  ·  classic %2$d</string>
+    <string name="menu_controls">A / D or arrows move · Space / W jump · Right-click (or J) = ki blast\nEnter start · P / Esc pause · V switch 2D / 2.5D · 1 2 3 pick difficulty</string>
+    <string name="cd_logo">Ki Runner logo</string>
+    <string name="cd_hero">Fighter riding a cloud</string>
+    <string name="cd_pause">Pause</string>
+    <string name="cd_sound">Sound on or off</string>
+    <string name="cd_view">Switch between 2D and 2.5D view</string>
+</resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Big menu button; glows teal when focused with the keyboard or pressed -->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="#662CE5D8">
+    <item>
+        <selector>
+            <item android:state_focused="true">
+                <shape android:shape="rectangle">
+                    <corners android:radius="22dp" />
+                    <gradient android:angle="270" android:startColor="#2CE5D8" android:endColor="#14807A" />
+                    <stroke android:width="3dp" android:color="#C8FFFB" />
+                </shape>
+            </item>
+            <item>
+                <shape android:shape="rectangle">
+                    <corners android:radius="22dp" />
+                    <gradient android:angle="270" android:startColor="#2E2766" android:endColor="#16113A" />
+                    <stroke android:width="2dp" android:color="#2CE5D8" />
+                </shape>
+            </item>
+        </selector>
+    </item>
+</ripple>

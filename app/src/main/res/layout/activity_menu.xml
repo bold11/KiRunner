@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Main menu (landscape): logo + hero on the left, modes + difficulty on the right -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ki_night">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:importantForAccessibility="no"
+        android:scaleType="centerCrop"
+        android:src="@drawable/game_background" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingStart="36dp"
+        android:paddingEnd="36dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/cd_logo"
+                android:src="@drawable/logo" />
+
+            <ImageView
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/cd_hero"
+                android:src="@drawable/player" />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnAdventure"
+                    style="@style/KiControlButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="62dp"
+                    android:background="@drawable/btn_menu"
+                    android:nextFocusDown="@id/btnClassic"
+                    android:text="@string/menu_adventure"
+                    android:textSize="28sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/rajdhani_bold"
+                    android:text="@string/menu_adventure_sub"
+                    android:textColor="@color/ki_text_dim"
+                    android:textSize="12sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnClassic"
+                    style="@style/KiControlButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/btn_menu"
+                    android:nextFocusUp="@id/btnAdventure"
+                    android:nextFocusDown="@id/diffEasy"
+                    android:text="@string/menu_classic"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/rajdhani_bold"
+                    android:text="@string/menu_classic_sub"
+                    android:textColor="@color/ki_text_dim"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/rajdhani_bold"
+                    android:letterSpacing="0.3"
+                    android:text="@string/menu_difficulty"
+                    android:textColor="@color/ki_teal"
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/diffEasy"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_difficulty"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:fontFamily="@font/bangers"
+                    android:gravity="center"
+                    android:letterSpacing="0.08"
+                    android:text="@string/diff_easy"
+                    android:textColor="#FFFFFF"
+                    android:textSize="19sp" />
+                <TextView
+                    android:id="@+id/diffHard"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_difficulty"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:fontFamily="@font/bangers"
+                    android:gravity="center"
+                    android:letterSpacing="0.08"
+                    android:text="@string/diff_hard"
+                    android:textColor="#FFFFFF"
+                    android:textSize="19sp" />
+                <TextView
+                    android:id="@+id/diffExtreme"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_difficulty"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:fontFamily="@font/bangers"
+                    android:gravity="center"
+                    android:letterSpacing="0.08"
+                    android:text="@string/diff_extreme"
+                    android:textColor="#FFFFFF"
+                    android:textSize="19sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/diffInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="@font/rajdhani_bold"
+                    android:gravity="center"
+                    android:textColor="@color/ki_text"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/bestText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/rajdhani_bold"
+                    android:textColor="@color/ki_gold"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/rajdhani_bold"
+                    android:gravity="center"
+                    android:lineSpacingExtra="2dp"
+                    android:text="@string/menu_controls"
+                    android:textColor="@color/ki_text_dim"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</FrameLayout>

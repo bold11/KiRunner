@@ -1,0 +1,134 @@
+"""
+ADVENTURE level designer: edit the chunks below, then run
+
+    python tools/make_levels.py      # validates and writes app/src/main/java/.../AdvLevels.java
+
+A stage is a list of chunks placed left to right. Every chunk is 14 rows tall (row 13 = bottom).
+Rows you leave out are empty. Tiles are 16 px; the hero is 1 tile wide and 1.5 tiles tall.
+Jump: ~3 tiles high, ~5 tiles far. Double jump adds ~2.5 tiles. Keep plain gaps <= 4 tiles.
+
+Legend
+  .  empty            #  ground            B  brick (breaks when hit from below or shot)
+  ?  power block (3 ki orbs)               H  power block (heart)
+  =  cloud platform (jump up through it)   ^  spikes (hurt)
+  o  ki orb           g  blob (stomp/blast) f  flit (swoops)   x  spikeball (blast only)
+  S  hero start       E  boss gate (end of the stage)
+"""
+import os
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+OUT = os.path.join(ROOT, "app", "src", "main", "java", "com", "example", "kirunner", "AdvLevels.java")
+ROWS = 14
+
+
+def chunk(w, rows, ground=True):
+    grid = []
+    for r in range(ROWS):
+        if r in rows:
+            s = rows[r]
+            assert len(s) <= w, ("row too long", r, s)
+            grid.append(s.ljust(w, "."))
+        elif ground and r >= 12:
+            grid.append("#" * w)
+        else:
+            grid.append("." * w)
+    return grid
+
+
+def swap(c, a, b):
+    return [row.replace(a, b) for row in c]
+
+
+START = chunk(16, {8: ".....o.o.o", 11: "..S"})
+BLOCKS = chunk(22, {7: "......?B?B", 10: "...........ooo", 11: "....g...........g"})
+GAP3 = chunk(12, {9: "....ooo", 12: "####...#####", 13: "####...#####"})
+PILLARS = chunk(18, {8: ".......o....oo", 9: ".......B....BB", 10: ".......B....BB", 11: "..g....B....BB"})
+CLOUD_STEPS = chunk(26, {5: "...............oooo", 6: "..............====", 8: ".........===", 10: "....===",
+                         12: "######" + "." * 15 + "#####", 13: "######" + "." * 15 + "#####"})
+BLOBS = chunk(24, {7: ".........H", 10: "..............ooo", 11: "...g.....g......g"})
+SPIKES = chunk(20, {8: ".......ooo", 9: "......=====", 11: ".....^^^^^^^^^"})
+STAIRS = chunk(20, {7: ".......o...o", 8: ".......B...B", 9: "......BB...BB", 10: ".....BBB...BBB",
+                    11: "....BBBB...BBBB", 12: "########...#########", 13: "########...#########"})
+FLITS = chunk(22, {4: ".....f..........f", 6: "..........ooo", 11: "........g"})
+EXIT = chunk(16, {9: "...o.o.o", 11: "..........E"})
+
+BRIDGE = chunk(30, {4: "..............f", 7: "......oo.....oo......oo", 8: "............====",
+                    9: ".....====..............", 10: "...................====",
+                    12: "####" + "." * 22 + "####", 13: "####" + "." * 22 + "####"})
+BRIDGE = [r[:30] for r in BRIDGE]
+SPIKEBALLS = chunk(22, {7: "........?B?", 11: ".....x.........x"})
+GAP4 = chunk(14, {8: "....oooo", 12: "####....######", 13: "####....######"})
+PILLARS2 = chunk(22, {8: "......oo........oo", 9: "......BB........BB", 10: "......BB........BB",
+                      11: "......BB...x....BB"})
+HIGH = chunk(24, {4: "........ooo", 5: ".......====", 8: "...====......====", 11: "..........g...g"})
+SPIKES2 = chunk(22, {8: ".....ooo.....ooo", 9: ".....===.....===", 11: "....^^^^^...^^^^^"})
+HEARTS = chunk(18, {7: "......H...?", 11: "............g"})
+
+STAGES = [
+    # 1  SKY MEADOWS: learn to run, jump, stomp and blast
+    [START, BLOCKS, GAP3, PILLARS, CLOUD_STEPS, BLOBS, SPIKES, STAIRS, FLITS, EXIT],
+    # 2  CARNIVAL CLOUDS: long cloud bridges, flits and the first spikeballs
+    [START, FLITS, BRIDGE, SPIKEBALLS, GAP4, PILLARS2, HEARTS, HIGH, SPIKES2, CLOUD_STEPS, EXIT],
+    # 3  NULL CITADEL: everything at once
+    [START, SPIKEBALLS, GAP4, swap(STAIRS, "o", "o"), swap(FLITS, "g", "x"), SPIKES2, HEARTS, BRIDGE,
+     swap(PILLARS2, ".x", "xx"), swap(BLOCKS, "g", "x"), SPIKES, HIGH, GAP4, EXIT],
+]
+
+
+def build(stage):
+    rows = ["" for _ in range(ROWS)]
+    for c in stage:
+        assert len(c) == ROWS
+        w = len(c[0])
+        for r, s in enumerate(c):
+            assert len(s) == w, ("ragged chunk", s)
+            rows[r] += s
+    return rows
+
+
+def validate(i, rows):
+    text = "".join(rows)
+    assert text.count("S") == 1, "stage %d needs exactly one S" % (i + 1)
+    assert text.count("E") == 1, "stage %d needs exactly one E" % (i + 1)
+    # plain gaps in the ground must be short enough (unless cloud platforms help)
+    ground = rows[12]
+    run = 0
+    for col, ch in enumerate(ground + "#"):
+        if ch == ".":
+            run += 1
+            continue
+        if run:
+            helped = any("=" in rows[r][col - run:col] for r in range(ROWS))
+            assert run <= 4 or helped, "stage %d: gap of %d at column %d" % (i + 1, run, col - run)
+        run = 0
+
+
+def main():
+    stages = [build(s) for s in STAGES]
+    for i, rows in enumerate(stages):
+        validate(i, rows)
+    out = []
+    out.append("package com.example.kirunner;\n")
+    out.append("/**")
+    out.append(" * ADVENTURE stages, generated by tools/make_levels.py (edit the chunks there, then re-run it).")
+    out.append(" * Legend: # ground, B brick, ? power block (orbs), H power block (heart), = cloud platform,")
+    out.append(" * ^ spikes, o ki orb, g blob, f flit, x spikeball, S start, E boss gate. Rows are 16 px tiles.")
+    out.append(" */")
+    out.append("public final class AdvLevels {\n")
+    out.append("    private AdvLevels() {\n    }\n")
+    out.append("    public static final String[][] STAGES = {")
+    for rows in stages:
+        out.append("            {")
+        for r in rows:
+            out.append('                    "%s",' % r)
+        out.append("            },")
+    out.append("    };")
+    out.append("}")
+    with open(OUT, "w", encoding="utf-8", newline="\n") as f:
+        f.write("\n".join(out) + "\n")
+    for i, rows in enumerate(stages):
+        print("stage %d: %d columns" % (i + 1, len(rows[0])))
+
+
+if __name__ == "__main__":
+    main()
