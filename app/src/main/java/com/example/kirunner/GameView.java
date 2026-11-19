@@ -177,6 +177,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Gam
         super(context, attrs);
         getHolder().addCallback(this);
         setFocusable(true);
+        // keep keyboard focus after touches, so the first arrow / Space key is never swallowed by touch mode
+        setFocusableInTouchMode(true);
         swipeThreshold = 36 * getResources().getDisplayMetrics().density;
 
         // Images live in res/drawable-nodpi so Android doesn't rescale them.
@@ -274,6 +276,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Gam
         thread = new GameThread(holder, this);
         thread.setRunning(true);
         thread.start();
+        requestFocus();
     }
 
     @Override

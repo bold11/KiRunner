@@ -58,7 +58,7 @@ public class MenuActivity extends AppCompatActivity {
             launching = true;
             startActivity(new Intent(this, MainActivity.class));
         });
-        adventure.requestFocus();
+        findViewById(R.id.keyFocus).requestFocus();   // see activity_menu.xml: first key press always counts
         refresh();
     }
 
@@ -66,6 +66,8 @@ public class MenuActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         launching = false;
+        View f = getCurrentFocus();
+        if (f == null || !f.isFocused()) findViewById(R.id.keyFocus).requestFocus();
         refresh();
     }
 
